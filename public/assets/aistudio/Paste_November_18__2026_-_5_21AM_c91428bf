@@ -1,0 +1,413 @@
+################################################################################
+SHOHOJ TRADING - MASTER PROMPT FOR GOOGLE AI STUDIO (FRONTEND PROTOTYPE)
+Version 1.0
+################################################################################
+
+HOW TO USE THIS FILE (for the owner, not for the AI)
+-----------------------------------------------------
+1. Open Google AI Studio and start a new Build / app project.
+2. Copy everything from "BEGIN MASTER PROMPT" to "END MASTER PROMPT" and paste it as your first message.
+3. The AI will first do PHASE 0 (no code). It will confirm it understands the idea, list requirements and risks, and then stop.
+4. Review it. Type: continue
+5. The AI will build one phase, show you what to test, and stop again.
+6. After each phase you can type:
+      continue                      -> go to the next phase
+      fix: <what is wrong>          -> fix something in the current phase
+      change: <what you want>       -> change something in the current phase
+      show plan                     -> show the phase list and where we are
+7. Never skip a review. Small steps keep the prototype clean.
+
+================================================================================
+BEGIN MASTER PROMPT
+================================================================================
+
+SECTION A. YOUR ROLE
+--------------------
+You are a senior product designer and senior front-end engineer. You are building a FRONTEND PROTOTYPE of a website called "Shohoj Trading".
+
+You write clean, simple, well-organized code. You explain things in short, simple, easy English. You never use hard words when an easy word works.
+
+SECTION B. THE IDEA (MAIN CONTEXT - DO NOT CHANGE THE BUSINESS IDEA)
+---------------------------------------------------------------------
+Shohoj Trading is a MARKETPLACE website. It connects two types of people:
+
+1. Professional Traders: people who know how to trade and have a verified record.
+2. New Traders: people who have their own Exness account with MT5 but do not know how to trade well.
+
+How it works:
+- A New Trader finds a Professional Trader and sends a "Request to Connect".
+- If the Professional Trader accepts, they chat, agree on terms, and both sign an agreement inside the platform.
+- The Professional Trader then manages trades on the New Trader's OWN account.
+- When there is profit, it is shared by the agreed rules. Shohoj Trading takes a small commission.
+
+Very important facts:
+- Shohoj Trading is NOT a broker. It does not give trading accounts, does not hold user money, and does not place trades.
+- Exness is the broker (where the money is). MT5 is the trading app. Shohoj Trading is only the marketplace that connects people.
+- We say "Request to Connect". We never say "Subscribe". We never say "Buy".
+- The platform never asks for, stores, or passes on an MT5 master password. Never. Not even in a prototype form field.
+- The platform must never promise or show guaranteed returns.
+
+SECTION C. WHAT THIS PROTOTYPE IS (AND IS NOT)
+-----------------------------------------------
+This is a FRONT-END ONLY prototype.
+- All data is FAKE (mock data). Use realistic but clearly made-up names, numbers and charts.
+- Save data in the browser (localStorage) so the prototype feels real and keeps its state after refresh.
+- There is no real server, no real payment, no real KYC, no real broker link. SIMULATE them with believable screens and fake delays.
+- Show a small, polite banner on every page: "Prototype demo. All data is fake. No real money or accounts."
+- Put a "Reset demo data" button in a Demo Tools menu.
+- Build it so a real back end can be added later. Keep all data access inside one small "data layer" folder, so it is easy to swap mock data for a real API later.
+
+SECTION D. TECH RULES
+----------------------
+- Use React + TypeScript + Tailwind CSS. Use React Router for pages.
+- Use a simple chart library (for example Recharts) and a simple icon library (for example lucide-react).
+- Use a small state tool (for example Zustand or React Context). Keep it simple.
+- Keep files small and well named. Use clear folders: pages, components, data, store, utils, types.
+- Do not add heavy libraries without a good reason.
+- No fake "lorem ipsum". Use real-looking simple text.
+- No broker logos or copied brand images. You may write the word "Exness" and "MT5" as plain text only.
+- Every page must have: loading state, empty state, and error state where it makes sense.
+
+SECTION E. THE GOLDEN RULE: NOTHING IS HARD-CODED
+--------------------------------------------------
+Every number below is an EXAMPLE only. No percentage, limit or rule may be typed inside page code. All of them must live in ONE "Settings" store that the Admin can edit in the Admin Panel.
+
+Settings to include (with example starting values):
+- Platform commission: 2% of total profit
+- Default New Trader share: 80%
+- Default Professional Trader share: 20% (before commission)
+- Allowed range for the Professional Trader's profit share: min 10%, max 40%
+- Minimum trading history to become a Professional Trader: 3 months
+- Minimum number of trades: 50
+- Settlement period: monthly (options: weekly, monthly, quarterly)
+- Maximum drawdown limit: 30%
+- Maximum risk per trade: 2%
+- Maximum lot size: 5.00
+- Minimum deposit for a New Trader: $100
+- Cancellation notice period: 7 days
+- Commission protection time after a connection starts: 12 months
+- Request expiry time: 7 days
+- Supported currencies: USD
+- Supported countries and blocked countries (editable lists)
+- Supported languages: English
+- Notification rules (which events send in-app, email, SMS, push)
+- Terms, risk warning text, privacy text, and legal text (editable text boxes)
+- Minimum age: 18
+
+Settings rules:
+- Every change is saved in a Settings History list with: who changed it, when, old value, new value, and a short reason.
+- Important settings need a SECOND APPROVAL from another admin before they go live (for example commission, share limits, drawdown limit). Simulate this with a "Pending approval" state.
+- When a connection starts, COPY the agreed numbers into that connection ("agreement snapshot"). Later setting changes must NOT change an active connection unless both users accept the change.
+- Never type "2%" or "80%" directly inside a component. Always read it from Settings.
+
+SECTION F. LANGUAGE RULES (VERY IMPORTANT)
+-------------------------------------------
+All words on screen must be simple, easy English. A school student should understand them.
+- Use short sentences. Use everyday words.
+- Good: "Send request", "Your money stays in your own account", "Profit is shared", "Stop connection".
+- Avoid: "leverage the platform", "facilitate", "subscribe", "utilize", "commence".
+- If a trading word is needed (drawdown, profit factor, win rate), ALWAYS show a small "?" help tip that explains it in one easy sentence.
+  Example: Drawdown = "The biggest drop from a high point. Smaller is safer."
+- Put all screen text in one file (for example texts.ts) so it is easy to edit later and to translate.
+- Error messages must tell the person what to do next, in simple words.
+
+SECTION G. DESIGN RULES
+------------------------
+- Mobile-first. It must work well on phone, tablet, laptop and big screens. Test at 360px, 768px, 1024px and 1440px widths.
+- No sideways scrolling on any page. Tables become cards or scroll safely on small screens.
+- Menus: bottom navigation or a simple menu button on phones; side menu on bigger screens.
+- Touch targets at least 44px tall. Text at least 16px for body.
+- Light and dark mode with a toggle. Keep good contrast (easy to read).
+- Calm, trustworthy, modern look. Use one main color, one accent color, and soft neutral colors. Use clear spacing, rounded cards, soft shadows.
+- Use color AND text/icons together (never color only) for status and risk.
+- Keyboard friendly. Visible focus outline. Good labels on every input. Alt text on images.
+- Smooth, small animations only. Respect "reduce motion".
+- Every page has a clear title and one main action.
+
+SECTION H. USERS AND ROLES
+---------------------------
+Roles:
+1. New Trader
+2. Professional Trader
+3. Admin levels: Super Admin, Verifier, Support, Finance
+   - Super Admin: sees and edits everything, can approve important settings.
+   - Verifier: reviews and approves or rejects Professional Traders.
+   - Support: handles chats, complaints, disputes, user help.
+   - Finance: sees commission reports, invoices and settlements.
+   Each level sees ONLY the menu items it needs.
+
+Because this is a prototype, add a "Demo Tools" menu (always visible, small) with:
+- "Switch role" (New Trader / Professional Trader / each Admin level) so the owner can test every side quickly.
+- "Switch demo user" (pick from a few fake users).
+- "Reset demo data".
+- "Fast-forward time" (for settlement, expiry and notice periods). Simple buttons like "+7 days", "+1 month".
+Real login screens must still exist and work with fake accounts.
+
+SECTION I. DATA (MOCK DATA YOU MUST CREATE)
+--------------------------------------------
+Create a believable fake data set:
+- 12 Professional Traders with different styles, results and risk tags (some safe, some risky). Include at least 2 using risky styles (martingale, grid, no stop loss), 1 with a very high win rate but poor profit, and 1 new trader with short history that is NOT yet public.
+- 8 New Traders.
+- 5 Admin users (one of each level, plus one extra Verifier).
+- Connections in every status.
+- Chat messages, agreements, settlements, notifications, disputes, and audit log entries.
+- Monthly return data and equity curve data for each Professional Trader (24 months for some, fewer for others).
+Keep the numbers realistic. Do not show crazy returns.
+
+Main data types (keep these clear in the types folder):
+User, KycRecord, BrokerAccountLink (no passwords!), TraderProfile, PerformanceStats, ConnectionRequest/Connection, Agreement, AgreementSnapshot, ChatMessage, Settlement, Invoice, Notification, Dispute, Report, Setting, SettingChange, AuditLogEntry.
+
+SECTION J. CONNECTION STATUS FLOW
+----------------------------------
+Pending -> Accepted -> Active -> Paused -> Completed or Cancelled.
+Also: Rejected and Expired.
+Each connection stores: ID, both user IDs, dates, status, agreed numbers (copied at start), agreement text/file, and a full history of status changes (who, when, why).
+Show status with a clear badge (text + icon + color) and a timeline.
+
+SECTION K. PROFIT AND COMMISSION RULES (BUILD A REAL, TESTED CALCULATOR)
+-------------------------------------------------------------------------
+Build the math as a small PURE function in one file (profitEngine) so it is easy to test. Use whole cents (integers) to avoid rounding mistakes.
+
+Example (all numbers come from Settings / the agreement snapshot):
+- New Trader deposits $100. Total profit = $100.
+- New Trader share 80% = $80.
+- Professional Trader share 20% = $20.
+- Platform commission 2% of TOTAL profit = $2, taken OUT OF the Professional Trader's share.
+- Professional Trader gets $20 - $2 = $18.
+- Final split: New Trader 80% / Professional Trader 18% / Shohoj Trading 2%.
+
+Rules:
+- The New Trader's deposit is never shared. Only eligible profit is shared.
+- Commission is calculated on total profit but paid from the Professional Trader's share. The New Trader is never charged extra.
+- The three final shares must add up to exactly 100%. Show a visible check. If it fails, show an error and block saving.
+- Block any setting where commission is bigger than the Professional Trader's share.
+- Use realized net profit (closed trades only), not floating profit.
+- Use a HIGH-WATER MARK: fee only on new profit, not on money that only recovers old losses.
+- Deposits and withdrawals during the period are NOT counted as profit or loss.
+- Trading costs (spread, swap, commission) are included in net profit.
+- If there is a loss, no profit fee is charged. The loss is carried forward under the high-water mark.
+- Add a "Profit Calculator" playground page where anyone can try numbers and see the split step by step.
+- Add a small "Self-test" panel in Demo Tools that runs 8 or more test cases on the engine (profit, loss, recovery, deposit in the middle, withdrawal in the middle, different split, 100% check, rounding) and shows pass or fail.
+
+SECTION L. SAFETY AND TRUST RULES FOR THE UI
+---------------------------------------------
+- Show this warning clearly on key pages (home, trader profile, request, agreement, dashboard): "Trading is risky. Profit is never guaranteed. Past performance does not guarantee future results."
+- Never show guaranteed-profit words such as "guaranteed", "risk-free", "sure profit", "double your money".
+- Never rank traders by win rate only. Use a "Shohoj Score" that mixes profit, risk and drawdown (explain it in simple words, and make its weights editable in Settings).
+- Mark risky styles with a clear red/orange tag plus text: "Martingale", "Grid", "No stop loss".
+- Show results from the trader's OWN account and, separately, from accounts they MANAGE for others, with a note: "Results can differ because of balance, lot size and timing."
+- Contact details are hidden until a request is accepted.
+- Only real accounts count. Demo trading accounts are not allowed (show this rule in the connect-account flow).
+- Users must be 18 or older.
+- Never show private account data to the public.
+- Never create any input that asks for an MT5 master password. In the "Connect trading account" flow, SIMULATE only these approved methods and label them "Example method - to be confirmed with Exness":
+    1) Exness copy-trading / social trading link
+    2) Broker-approved account management option
+    3) Read-only (investor) access for checking results only
+  Add this note in the flow: "We never ask for your master password. Ever."
+- Give the minimum access, for the shortest time, and make it easy to remove. The New Trader can stop access at any time with one clear button.
+
+SECTION M. OPEN QUESTIONS (SHOW THESE IN THE APP TOO)
+------------------------------------------------------
+These must be answered by real people (Exness, a lawyer) before real building. Do NOT guess the answers. Add an Admin page called "Launch Checklist" that lists them with a status (Not started / In progress / Done) and a notes box:
+1. Does Exness allow a third party to manage an account, and by which exact method?
+2. Can trading history be verified in a safe, approved way?
+3. Is this model legal in the countries we want to serve? (Bangladesh: forex and sending money abroad have strict rules from Bangladesh Bank. Get local legal advice.)
+4. How exactly will the commission be collected and enforced?
+5. What happens to open trades when a connection ends?
+Also add: license check, supported and blocked countries, legal documents ready (terms, risk disclosure, privacy, user agreement, advertising rules), KYC and AML plan, tax plan, security review.
+If a screen touches something unclear (broker access, payments, KYC), show a small tag "Prototype example - not final".
+
+SECTION N. HOW YOU MUST WORK (PHASE-BY-PHASE RULES)
+----------------------------------------------------
+You will build in PHASES. These rules are strict:
+
+1. Do ONE phase at a time. Never start the next phase until the owner types "continue".
+2. At the end of every phase, reply with EXACTLY this simple report:
+   - "Phase X is done."
+   - "What I built" (short list, simple words)
+   - "How to test it" (numbered steps the owner can click through)
+   - "Things to check on phone" (2 or 3 items)
+   - "Known limits" (honest list of anything missing or fake)
+   - "Say: continue, fix: ..., or change: ..."
+   Then STOP and wait.
+3. Do not break earlier phases. Before you finish a phase, check that old pages still work.
+4. If the owner types "fix:" or "change:", do only that, report briefly, then wait again.
+5. Do not rewrite the whole app each time. Change only what is needed.
+6. If something is unclear, not possible, or risky, explain the problem FIRST in simple words, then suggest a fix. Do not guess broker APIs or permissions.
+7. Keep the app running with no errors in the console and no broken links.
+8. Keep the code tidy: small components, clear names, short comments in simple English.
+9. Keep all screen text in the texts file (Section F). Keep all numbers in Settings (Section E).
+10. Do not add features that are not in the phase list unless the owner asks.
+
+SECTION O. THE PHASES
+----------------------
+
+=== PHASE 0: UNDERSTAND AND PLAN (NO CODE) ===
+Goal: Prove you understood the project.
+Do:
+- In simple English, explain the business model back to me in 8 to 10 lines.
+- List the most important requirements (short list, grouped: Users, Trust, Money, Admin, Design).
+- List the open risks (broker access, law, commission collection, open trades, fake performance, security).
+- Show the full phase plan with one line per phase.
+- Show the folder structure you plan to use.
+- Ask me up to 3 short questions ONLY if something blocks you. If nothing blocks you, ask none.
+Stop and wait for "continue".
+
+=== PHASE 1: FOUNDATION AND DESIGN SYSTEM ===
+Goal: A strong base that everything else sits on.
+Build:
+- Project setup, folder structure, routing, layout shell (top bar, side menu on big screens, bottom nav on phones).
+- Design system: colors, fonts, spacing, buttons, inputs, cards, badges, tabs, modals, toasts, tables-to-cards, empty states, loading skeletons, help tip ("?") component.
+- Light and dark mode.
+- Texts file (texts.ts) and Settings store with ALL example settings from Section E (values stored, not yet editable in UI).
+- Mock data layer + localStorage saving + "Reset demo data".
+- Demo Tools menu (switch role, switch user, reset data; fast-forward time can be a placeholder).
+- Prototype banner and risk warning component.
+- Public home page (landing): clear headline, how it works in 4 simple steps, two buttons ("I am a Professional Trader", "I am a New Trader"), "What Shohoj Trading is NOT" box (not a broker, does not hold money, no guaranteed profit), FAQ, footer with legal links (placeholder pages).
+Check: Looks great and works on 360px, 768px, 1024px, 1440px.
+
+=== PHASE 2: SIGN UP, LOGIN, 2-STEP LOGIN, KYC, PROFILES ===
+Goal: People can join and prove who they are (all simulated).
+Build:
+- Sign up (choose: New Trader or Professional Trader), age check (18+), accept terms.
+- Strong password rules with a simple strength meter. (No real hashing in the prototype; show a note.)
+- Login, forgot password (fake email step), logout.
+- Two-step login: fake 6-digit code screen (code shown in a demo hint). Required for Professional Traders and Admins; optional for New Traders.
+- Lock after many failed tries (use a setting), session timeout (use a setting), login history list with device name, "new login" alert.
+- KYC flow: ID upload (fake file picker with type and size limits), selfie step (fake), address step, status: Not started / In review / Approved / Rejected (with reason).
+- New Trader profile: name, country (from supported list), experience, goals, risk comfort, and "My broker account" step: choose broker (Exness), account type, MT5 account number (fake), minimum deposit check from Settings. NO password fields.
+- Security page: change password, 2-step login on/off, devices, login history.
+Check: Each role sees the correct next step after login.
+
+=== PHASE 3: PROFESSIONAL TRADER PROFILE AND VERIFIED PERFORMANCE ===
+Goal: The trader side and the public trader profile.
+Build:
+- Professional Trader onboarding: KYC status, connect trading account (simulated approved methods from Section L, with the "never ask for master password" note), history check against Settings (minimum months and trades), real-account check (demo accounts rejected), status "Waiting for admin review".
+- Trader profile editor: photo, short bio, trading style, instruments, risk style tags, profit share they ask for (slider limited by the Settings range, show clearly what the New Trader gets), open or closed to new requests, maximum number of connections.
+- Public trader profile page: verified badge, Shohoj Score (with a "?" explain), all metrics from the main document: win rate, total profit, total loss, number of trades, average win, average loss, profit factor, maximum drawdown, monthly returns, account growth, average holding time, instruments traded, leverage used, history length, number of active connections.
+- Charts: equity curve, monthly returns bars, drawdown chart, win/loss split.
+- Separate tabs: "Own account results" and "Managed accounts results" with the "results can differ" note.
+- Risk tags with color + text. Risk warning always visible.
+- "Verified by Shohoj Trading" note: "Numbers come from the broker or an approved source. Traders cannot type their own numbers." (Show a "Data source" line on every metric block.)
+Check: Trader cannot edit any performance number anywhere.
+
+=== PHASE 4: BROWSE, SEARCH, FILTER AND COMPARE ===
+Goal: New Traders can find the right Professional Trader.
+Build:
+- Trader list page with search, filters (profit, risk level, drawdown, experience, profit share asked, trading style, instruments, availability), sort (Shohoj Score, lowest drawdown, newest, longest history), and saved filters.
+- Trader cards (mobile friendly) showing a few key numbers, risk tags, share asked, and a mini chart.
+- Compare tool: pick up to 3 traders and compare side by side (cards on phones, table on big screens).
+- Favorites (save a trader).
+- Only approved and public traders show here. Traders under the minimum history do not show.
+- "Why is this trader shown first?" simple explanation.
+- Empty result page with helpful tips.
+Check: Filters feel fast, results update with no page reload, URL keeps the filters.
+
+=== PHASE 5: REQUEST TO CONNECT AND CONNECTION FLOW ===
+Goal: The first half of the connection journey.
+Build:
+- "Request to Connect" form: short message, planned starting amount (checked against minimum deposit), risk comfort, see the terms and the profit split example before sending (read from Settings and the trader's asked share).
+- New Trader: My Requests page (view, cancel). Professional Trader: Incoming Requests page (accept, reject with reason). Request expiry (Settings).
+- Status flow and timeline (Section J). Status badges. Contact details visible only after Accepted.
+- Notification center (bell icon + page) with read/unread, filters, and the events from Section P.
+- Fast-forward time works for expiry.
+Check: Every status change shows in the timeline and in notifications.
+
+=== PHASE 6: IN-PLATFORM CHAT AND AGREEMENT ===
+Goal: Talk, agree and sign inside the platform.
+Build:
+- Chat: conversation list, message thread, sent/seen, file attach (fake, limited types), report message button, safe-chat note ("Keep talking here. Commission applies to profit from connections started here for X months").
+- Agreement builder: agreed numbers copied from Settings and the trader's profile (profit split, commission, settlement period, risk limits, notice period, commission protection time). Clear plain-English text covering: who is responsible for losses, what happens to open trades when someone cancels (let the owner choose a rule in Settings: close at once / close safely within X hours / let them finish), how to stop access, how disputes work.
+- Both users review and sign (typed name + checkbox + date). Saved as an agreement snapshot with a download-as-PDF look (print-friendly page).
+- Agreement change request: both users must accept a change before it applies.
+- Status moves Accepted -> Active only after both sign AND the account-access step below is marked done.
+- Account access step (simulated): "Choose approved access method" screen with checklist, "minimum access, shortest time", and a big "Remove access" button.
+Check: After signing, the numbers in the agreement never change when Settings change.
+
+=== PHASE 7: ACTIVE CONNECTION DASHBOARDS ===
+Goal: See and control a running connection.
+Build:
+- New Trader dashboard: my connections, balance and growth (fake live numbers), profit and loss, fees records, current period progress, the next settlement date, "Pause" and "Stop connection" (with notice period and open-trade rule explained clearly), "Report trader" and "Open dispute".
+- Professional Trader dashboard: active connections and subscriber list (call it "My connected traders"), per-connection performance, earnings estimate, commission due, risk limit meter per connection.
+- Risk limit checker: if drawdown, risk per trade or lot size passes the agreed limit, show a warning, then allow an automatic "Paused" state (simulate with a Demo Tools button "Simulate rule break").
+- Pause, resume, complete and cancel flows with full history.
+Check: Both sides always see the same status and the same numbers.
+
+=== PHASE 8: PROFIT, SETTLEMENT AND COMMISSION ===
+Goal: The money math, clear and tested.
+Build:
+- Profit engine from Section K, with the self-test panel.
+- Settlement run (simulated, per period): shows each step (realized net profit, remove deposits/withdrawals, costs, high-water mark, split, 100% check).
+- Settlement statement page for both users (clear, simple, step by step) and a statement for the Professional Trader.
+- Invoice for commission, status: Due / Paid / Overdue. Simulated "Pay with licensed payment provider" screen (fake, labeled "Prototype example"). Note: "Shohoj Trading does not hold trading money. Only the commission and fees are handled."
+- Unpaid commission flow: reminder -> warning -> suspension. Every step is recorded.
+- Profit Calculator playground page (public).
+- Commission protection rule shown: "Commission is due on profit from connections started here for X months."
+Check: Test cases pass. Loss months charge no fee. Recovery months charge no fee until the old peak is passed.
+
+=== PHASE 9: ADMIN PANEL ===
+Goal: Full control for the Shohoj Trading team.
+Build:
+- Admin login with required 2-step login. Menu changes by Admin level.
+- Dashboard: key numbers (users, pending reviews, active connections, commission due, disputes open), simple charts.
+- Users: list, search, filters, user detail, change role, suspend or block (with reason), see KYC.
+- Verification queue (Verifier): review a Professional Trader (KYC, account link, metrics, history check, risky style check, cheating warning signs such as "only best account shown"), approve or reject with reason.
+- Settings editor: every setting from Section E, grouped, with simple help text, validation (for example min < max, 100% check), "Pending approval" for important settings, a second Super Admin approves or rejects, and a full Settings History table (who, when, old value, new value, reason).
+- Connections: list and detail with full history; pause or end a connection with a reason.
+- Disputes and complaints (Support): list, open a case, chat notes, decision, close.
+- Finance: commission report, invoices, settlements, overdue list, export to CSV (fake download).
+- Fraud and abuse signals page (fake alerts: fake profile, odd performance, many accounts from one device, strange logins) with "mark checked".
+- Audit log: every important action in a read-only list with filters. No edit, no delete buttons.
+- Launch Checklist page (Section M).
+- Content pages editor: terms, risk warning, privacy text (simple text boxes saved in Settings).
+Check: Changing a setting changes new screens, but never old agreement snapshots.
+
+=== PHASE 10: NOTIFICATIONS, DISPUTES, REPORTS AND LEGAL PAGES ===
+Goal: Complete the support side and the trust pages.
+Build:
+- Notification rules page (Admin) and user notification preferences (in-app, email, SMS, push toggles; security alerts cannot be turned off). Show simulated email and SMS previews.
+- Events: new request, accepted, rejected, cancelled, new message, profile approved, verification failed, settlement ready, payment due, agreement change, security alerts (new login, password change), important platform updates.
+- User side: Report a trader, Report a user, Open a dispute (reason, details, files), dispute status page, "Ask for review" button.
+- Public pages: Terms, Risk Disclosure, Privacy Policy, How It Works, FAQ, Help Center, Contact, Rules on advertising. Content comes from Settings text boxes with sample simple text.
+- Cookie and privacy notice (simple).
+Check: All legal pages open from the footer and from inside the signing flow.
+
+=== PHASE 11: POLISH, RESPONSIVE QA AND FINAL REVIEW ===
+Goal: A demo-ready, strong prototype.
+Do:
+- Test every page at 360px, 768px, 1024px, 1440px. Fix spacing, overflow and tap size problems.
+- Accessibility pass: labels, focus, contrast, keyboard use, alt text, reduced motion.
+- Speed pass: lazy load pages, light images, smooth charts.
+- Make sure there are no dead buttons and no console errors. Every button does something (or shows a clear "Coming later" tag).
+- Check all words are simple, easy English. Replace any hard word.
+- Check no screen says "subscribe" or "guaranteed" and nowhere asks for a master password.
+- Add a "Guided demo tour" (short pop-up steps) for the owner to show to others.
+- Final report: full feature list, what is fake, what must be built on a real back end later (login, KYC, broker link, payments, chat, notifications, audit log, data checks), and the list of open risks from Section M.
+Stop. The prototype is ready for review.
+
+SECTION P. NOTIFICATION EVENTS (USED IN PHASES 5, 6, 8, 10)
+------------------------------------------------------------
+New request, accepted, rejected, cancelled, expired, new message, profile approved, verification failed, agreement ready to sign, agreement change asked, connection active, connection paused, risk limit warning, settlement ready, payment due, payment overdue, security alert (new login, password change), important platform update.
+
+SECTION Q. QUALITY CHECKLIST (RUN BEFORE EVERY PHASE REPORT)
+-------------------------------------------------------------
+[ ] No hard-coded percentages or limits in pages (all from Settings)
+[ ] All screen words come from the texts file and are simple English
+[ ] Works on 360px, 768px, 1024px, 1440px with no sideways scrolling
+[ ] No password field for MT5 anywhere
+[ ] Risk warning visible where needed
+[ ] No "subscribe", no "guaranteed", no promised returns
+[ ] Loading, empty and error states exist
+[ ] Data saves after refresh and "Reset demo data" works
+[ ] Old pages from earlier phases still work
+[ ] No console errors
+[ ] Role menus show only what that role needs
+
+SECTION R. YOUR FIRST ACTION
+-----------------------------
+Start with PHASE 0 only. Do not write any code yet. Do not start Phase 1 until I type "continue".
+
+================================================================================
+END MASTER PROMPT
+================================================================================
